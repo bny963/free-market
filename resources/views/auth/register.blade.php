@@ -15,28 +15,49 @@
         <form method="POST" action="/register">
             @csrf
 
+            <!-- 1. ユーザ名 -->
             <div>
                 <label>お名前</label><br>
-                <input type="text" name="name" required autofocus>
+                <input type="text" name="name" value="{{ old('name') }}" autofocus>
+                @error('name')
+                    <div style="color: red;">{{ $message }}</div>
+                @enderror
             </div>
 
+            <!-- 2. メールアドレス -->
             <div style="margin-top: 15px;">
                 <label>メールアドレス</label><br>
-                <input type="email" name="email" required>
+                <input type="text" name="email" value="{{ old('email') }}">
+                @error('email')
+                    <div style="color: red;">{{ $message }}</div>
+                @enderror
             </div>
 
+            <!-- 3. パスワード -->
             <div style="margin-top: 15px;">
                 <label>パスワード</label><br>
-                <input type="password" name="password" required>
+                <input type="password" name="password">
+                @error('password')
+                    <div style="color: red;">{{ $message }}</div>
+                @enderror
             </div>
 
+            <!-- 4. 確認用パスワード -->
             <div style="margin-top: 15px;">
                 <label>パスワード（確認用）</label><br>
-                <input type="password" name="password_confirmation" required>
+                <input type="password" name="password_confirmation">
+                @error('password_confirmation')
+                    <div style="color: red;">{{ $message }}</div>
+                @enderror
             </div>
 
             <button type="submit" style="margin-top: 20px;">登録する</button>
         </form>
+
+        <!-- FN005: ユーザー認証動線 -->
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="/login">ログイン画面へ</a>
+        </div>
     </div>
 </body>
 
