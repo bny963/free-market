@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', [ItemController::class, 'index'])->name('index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
@@ -31,4 +32,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Stripeから戻ってくる決済完了画面（GET）
     Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success'])->name('purchase.success');
+
+    // FN025: マイページ表示
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+    // FN026: プロフィール編集画面（動線確認用の仮ルート）
+    Route::get('/profile/edit', function () {
+        return "ここはプロフィール編集画面です（US008で実装予定）";
+    })->name('profile.edit');
 });
