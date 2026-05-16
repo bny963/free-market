@@ -8,5 +8,5 @@ Route::get('/', function () {
 
 // 仮のプロフィール設定画面（FN006の遷移先確認用）
 Route::get('/profile', function () {
-    return '<h1>プロフィール設定画面（ここへ遷移すればFN006成功です）</h1>';
+    return view('profile-placeholder'); 
 })->middleware(['auth', 'verified'])->name('profile');
