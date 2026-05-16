@@ -52,4 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // FN028: 商品出品
     Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
     Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
+
+    // 商品出品削除（安全のためPOSTで処理）
+    Route::post('/item/{item_id}/delete', [ItemController::class, 'destroy'])->name('item.destroy');
 });

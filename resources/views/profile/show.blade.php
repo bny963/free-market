@@ -114,13 +114,27 @@
 
     <div class="grid">
         @forelse($items as $item)
-            <a href="/item/{{ $item->id }}" class="card">
-                @if($item->is_sold)
-                    <span class="sold-badge">Sold</span>
+            <div
+                style="position: relative; border: 1px solid #eee; border-radius: 4px; padding: 8px; background: #fff; box-sizing: border-box;">
+                <a href="/item/{{ $item->id }}" class="card" style="display: block;">
+                    @if($item->is_sold)
+                        <span class="sold-badge">Sold</span>
+                    @endif
+                    <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
+                    <p style="margin: 8px 0 0 0; font-size: 14px; font-weight: bold;">{{ $item->name }}</p>
+                </a>
+
+                @if($tab === 'sell' && !$item->is_sold)
+                    <form action="{{ route('item.destroy', $item->id) }}" method="POST"
+                        onsubmit="return confirm('この出品を取り下げますか？（この操作は取り消せません）');" style="margin: 8px 0 0 0;">
+                        @csrf
+                        <button type="submit"
+                            style="width: 100%; background: #666; color: #fff; border: none; padding: 6px 0; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; transition: 0.2s;">
+                            出品を取り下げる
+                        </button>
+                    </form>
                 @endif
-                <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
-                <p style="margin: 8px 0 0 0; font-size: 14px; font-weight: bold;">{{ $item->name }}</p>
-            </a>
+            </div>
         @empty
             <p style="color: #888; grid-column: 1 / -1; text-align: center; padding: 40px 0;">
                 {{ $tab === 'buy' ? '購入した商品はありません' : '出品した商品はありません' }}
