@@ -177,4 +177,10 @@ return [
         ]),
     ],
 
+    'redirects' => [
+        'login' => null,
+        'logout' => '/',
+        'password-reset' => null,
+    ],
+
 ];
