@@ -48,4 +48,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     // FN027: プロフィール変更保存処理（ここを追記）
     Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
+
+    // FN028: 商品出品
+    Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
+    Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 });

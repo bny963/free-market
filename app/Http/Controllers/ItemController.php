@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
 use App\Models\Like;
+use App\Models\Category;
+use App\Http\Requests\ExhibitRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -102,5 +105,44 @@ class ItemController extends Controller
         ]);
 
         return back()->with('success', 'コメントを投稿しました');
+    }
+
+    /**
+     * FN028: 商品出品画面の表示
+     */
+    public function create()
+    {
+        // 画面のチェックボックス用にすべてのカテゴリを取得
+        $categories = Category::all();
+        return view('items.create', compact('categories'));
+    }
+
+    /**
+     * FN028 / FN029: 出品商品情報登録 ＆ 画像アップロード
+     */
+    public function store(ExhibitRequest $request)
+    {
+        // 1. 商品画像のアップロード（FN029）
+        // storage/app/public/item_images に保存
+        $path = $request->file('item_img')->store('item_images', 'public');
+        $img_url = Storage::url($path); // /storage/item_images/xxx.png に変換
+
+        // 2. 商品データの作成
+        $item = Item::create([
+            'user_id' => Auth::id(), // 出品者ID
+            'name' => $request->name,
+            'brand' => $request->brand,
+            'price' => $request->price,
+            'description' => $request->description,
+            'condition' => $request->condition,
+            'img_url' => $img_url,
+            'is_sold' => false,
+        ]);
+
+        // 3. 複数選択されたカテゴリを中間テーブルに紐付け（FN028-1-2）
+        $item->categories()->attach($request->input('categories'));
+
+        // 出品完了後はトップページ（一覧）へ戻る
+        return redirect()->route('index')->with('success', '商品を出品しました！');
     }
 }
