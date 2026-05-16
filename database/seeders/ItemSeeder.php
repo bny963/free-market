@@ -18,6 +18,16 @@ class ItemSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        // 2. 購入者テスト用アカウント（FN021-4の初期住所を設定）
+        $user1 = User::firstOrCreate(['email' => 'user1@example.com'], [
+            'name' => 'ユーザー1',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
+            'postal_code' => '123-4567',
+            'address' => '東京都渋谷区道玄坂2丁目',
+            'building' => 'コーチテックビル 5F',
+        ]);
+
         $categories = Category::all();
 
         $items = [
