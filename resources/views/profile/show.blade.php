@@ -107,10 +107,14 @@
         <a href="{{ route('profile.edit') }}" class="edit-btn">プロフィールを編集</a>
     </div>
 
-    <div class="tabs">
-        <a href="/profile?tab=sell" class="tab-item {{ $tab === 'sell' ? 'active' : '' }}">出品した商品</a>
-        <a href="/profile?tab=buy" class="tab-item {{ $tab === 'buy' ? 'active' : '' }}">購入した商品</a>
+    <div class="tabs"
+        style="display: flex; gap: 20px; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+        <a href="/mypage?page=sell"
+            style="text-decoration: none; font-weight: bold; color: {{ $page === 'sell' ? '#ff4d4d' : '#333' }}; border-bottom: {{ $page === 'sell' ? '2px solid #ff4d4d' : 'none' }}; padding-bottom: 10px;">出品した商品</a>
+        <a href="/mypage?page=buy"
+            style="text-decoration: none; font-weight: bold; color: {{ $page === 'buy' ? '#ff4d4d' : '#333' }}; border-bottom: {{ $page === 'buy' ? '2px solid #ff4d4d' : 'none' }}; padding-bottom: 10px;">購入した商品</a>
     </div>
+    
 
     <div class="grid">
         @forelse($items as $item)
@@ -124,20 +128,16 @@
                     <p style="margin: 8px 0 0 0; font-size: 14px; font-weight: bold;">{{ $item->name }}</p>
                 </a>
 
-                @if($tab === 'sell' && !$item->is_sold)
-                    <form action="{{ route('item.destroy', $item->id) }}" method="POST"
-                        onsubmit="return confirm('この出品を取り下げますか？（この操作は取り消せません）');" style="margin: 8px 0 0 0;">
+                @if($page === 'sell' && !$item->is_sold)
+                    <form action="{{ route('item.destroy', $item->id) }}" method="POST" ...>
                         @csrf
-                        <button type="submit"
-                            style="width: 100%; background: #666; color: #fff; border: none; padding: 6px 0; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; transition: 0.2s;">
-                            出品を取り下げる
-                        </button>
+                        <button type="submit">出品を取り下げる</button>
                     </form>
                 @endif
             </div>
         @empty
             <p style="color: #888; grid-column: 1 / -1; text-align: center; padding: 40px 0;">
-                {{ $tab === 'buy' ? '購入した商品はありません' : '出品した商品はありません' }}
+                {{ $page === 'buy' ? '購入した商品はありません' : '出品した商品はありません' }}
             </p>
         @endforelse
     </div>

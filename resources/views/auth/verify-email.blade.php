@@ -13,11 +13,11 @@
     <header
         style="background-color: #000000; padding: 15px 40px; display: flex; align-items: center; min-height: 40px;">
         <a href="{{ route('index') }}" style="display: flex; align-items: center; text-decoration: none;">
-            <img src="{{ asset('img/logo.png') }}" alt="COACHTECH" style="height: 30px; object-fit: contain;">
+            <img src="{{ asset('img/logo.png') }}" alt="COACHTECH" style="height: 40px; object-fit: contain;">
         </a>
     </header>
 
-    <div style="max-width: 600px; margin: 150px auto; padding: 0 20px; box-sizing: border-box; text-align: center;">
+    <div style="max-width: 1300px; margin: 0 auto; width: 100%; padding: 0 20px; box-sizing: border-box; text-align: center;">
 
         <p style="font-size: 16px; font-weight: bold; color: #000000; line-height: 1.8; margin-bottom: 40px;">
             登録していただいたメールアドレスに認証メールを送付しました。<br>
