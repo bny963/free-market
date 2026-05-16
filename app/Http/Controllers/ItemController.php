@@ -145,4 +145,31 @@ class ItemController extends Controller
         // 出品完了後はトップページ（一覧）へ戻る
         return redirect()->route('index')->with('success', '商品を出品しました！');
     }
+
+    public function destroy($item_id)
+    {
+        $item = Item::findOrFail($item_id);
+
+        // セキュリティチェック：ログインユーザーがこの商品の出品者本人か確認
+        if ($item->user_id !== Auth::id()) {
+            return back()->with('error', '不正な操作です。自分の出品した商品以外は削除できません。');
+        }
+
+        // 既に売れてしまっている（Sold）商品はトラブル防止のため削除不可にする
+        if ($item->is_sold) {
+            return back()->with('error', '売却済みの商品は削除できません。');
+        }
+
+        // 1. ストレージから商品画像を削除
+        if ($item->img_url && str_contains($item->img_url, '/storage/')) {
+            $path = str_replace('/storage/', 'public/', $item->img_url);
+            Storage::delete($path);
+        }
+
+        // 2. データベースから商品レコードを削除（cascadeにより、中間テーブルやコメントも自動削除されます）
+        $item->delete();
+
+        // 削除後はマイページ（プロフィール）へ戻る
+        return redirect()->route('profile')->with('success', '出品商品を取り下げました。');
+    }
 }
