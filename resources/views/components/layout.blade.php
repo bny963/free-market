@@ -18,8 +18,16 @@
         </a>
 
         <form action="/" method="GET" style="flex: 0.7; display: flex;">
-            <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？"
-                style="width: 100%; padding: 8px 15px; border-radius: 5px; border: none; font-size: 14px;">
+<input type="text" name="query" value="{{ request('query') }}" placeholder="なにをお探しですか？" style="
+        width: 100%; 
+        padding: 10px 15px; 
+        background-color: #ffffff; 
+        color: #000000;
+        border: 1px solid #cccccc;
+        border-radius: 4px; 
+        box-sizing: border-box; 
+        font-size: 14px;
+    ">
             <input type="hidden" name="page" value="{{ request('page', 'index') }}">
         </form>
     </div>
