@@ -40,4 +40,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile/edit', function () {
         return "ここはプロフィール編集画面です（US008で実装予定）";
     })->name('profile.edit');
+
+    // FN025: マイページ表示
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+    // FN027: プロフィール編集画面表示（ここを修正）
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    // FN027: プロフィール変更保存処理（ここを追記）
+    Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
 });
