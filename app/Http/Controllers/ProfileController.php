@@ -18,9 +18,9 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // 表示するタブの切り替え（デフォルトは 'sell' = 出品した商品）
-        $tab = $request->query('tab', 'sell');
+        $page = $request->query('page', 'sell');
 
-        if ($tab === 'buy') {
+        if ($page === 'buy') {
             // FN025-4: 購入した商品一覧（Orderから商品情報を引っ張る）
             $orders = Order::with('item')->where('user_id', $user->id)->latest()->get();
             // コレクションからアイテムだけを抽出
@@ -30,7 +30,7 @@ class ProfileController extends Controller
             $items = Item::where('user_id', $user->id)->latest()->get();
         }
 
-        return view('profile.show', compact('user', 'items', 'tab'));
+        return view('profile.show', compact('user', 'items', 'page'));
     }
 
     /**
