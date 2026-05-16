@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Comment;
+use App\Http\Requests\CommentRequest;
+use App\Models\Like;
 
 class ItemController extends Controller
 {
@@ -45,5 +48,59 @@ class ItemController extends Controller
         $items = $query->get();
 
         return view('items.index', compact('items', 'keyword', 'page'));
+    }
+
+    public function show($item_id)
+    {
+        // リレーションをロードして取得
+        $item = Item::with(['categories', 'comments.user'])->withCount(['likes', 'comments'])->findOrFail($item_id);
+
+        return view('items.show', compact('item'));
+    }
+
+    /**
+     * FN018: いいね機能（ログイン必須）
+     */
+    public function toggleLike($item_id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user_id = Auth::id();
+
+        // 既にいいねしているかチェック
+        $like = Like::where('user_id', $user_id)->where('item_id', $item_id)->first();
+
+        if ($like) {
+            // 存在するなら解除（FN018-3）
+            $like->delete();
+        } else {
+            // 存在しないなら登録（FN018-1）
+            Like::create([
+                'user_id' => $user_id,
+                'item_id' => $item_id,
+            ]);
+        }
+
+        return back(); // 元の詳細画面にリフレッシュリダイレクト
+    }
+
+    /**
+     * FN020: コメント送信機能
+     */
+    public function storeComment(CommentRequest $request, $item_id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        Comment::create([
+            'user_id' => Auth::id(),
+            'item_id' => $item_id,
+            'content' => $request->input('content'),
+        ]);
+
+        return back()->with('success', 'コメントを投稿しました');
     }
 }

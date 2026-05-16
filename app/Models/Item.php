@@ -29,4 +29,16 @@ class Item extends Model
             return false;
         return $this->likes()->where('user_id', $user->id)->exists();
     }
+
+    // カテゴリ（多対多）
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    // コメント（1対多）
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
