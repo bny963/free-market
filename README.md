@@ -32,4 +32,4 @@ phpMyAdmin: http://localhost:8080/
 
 ## データベース設計 (ER図)
 
-![ER図](https://github.com/user-attachments/assets/ffa4d6d0-d555-46c2-b79f-0959c246ddce)
+![ER図](https://github.com/user-attachments/assets/b608372e-805a-424b-b961-dafdb79e7a9b)
