@@ -5,9 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Item extends Model
 {
+    use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'name',
+        'brand',
+        'price',
+        'description',
+        'condition',
+        'img_url',
+        'is_sold'
+    ];
+    protected $casts = [
+        'is_sold' => 'boolean',
+    ];
     protected $guarded = [];
 
     // 出品者へのリレーション

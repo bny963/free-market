@@ -12,12 +12,6 @@ Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show'
 Route::post('/item/{item_id}/like', [ItemController::class, 'toggleLike'])->name('item.like');
 Route::post('/item/{item_id}/comment', [ItemController::class, 'storeComment'])->name('item.comment');
 
-Route::get('/profile', function () {
-    // ログインユーザーが購入した履歴（商品情報を含む）を取得
-    $orders = Order::with('item')->where('user_id', Auth::id())->latest()->get();
-
-    return view('profile-placeholder', compact('orders'));
-})->middleware(['auth', 'verified'])->name('profile');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // 購入画面表示
@@ -32,14 +26,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Stripeから戻ってくる決済完了画面（GET）
     Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success'])->name('purchase.success');
-
-    // FN025: マイページ表示
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-
-    // FN026: プロフィール編集画面（動線確認用の仮ルート）
-    Route::get('/profile/edit', function () {
-        return "ここはプロフィール編集画面です（US008で実装予定）";
-    })->name('profile.edit');
 
     // FN025: マイページ表示
     Route::get('/mypage', [ProfileController::class, 'show'])->name('profile');
