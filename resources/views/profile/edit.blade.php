@@ -6,7 +6,7 @@
             @csrf
 
             <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 35px;">
-                <img src="{{ $user->profile_img_url ?? 'https://via.placeholder.com/100?text=No+Image' }}" alt="現在の画像"
+                <img src="{{ auth()->user()->profile_img_url ?? 'https://via.placeholder.com/100?text=No+Image' }}" alt="現在の画像" ...>
                     style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #ddd; border: 1px solid #ccc;">
                 <div>
                     <label
@@ -22,14 +22,14 @@
 
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px;">ユーザー名</label>
-                <input type="text" name="name" value="{{ old('name', $user->name) }}"
+                <input type="text" name="name" value="{{ old('name', auth()->user()->name) }}" ...>
                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
                 @error('name') <p style="color: red; font-size: 13px; margin: 5px 0 0 0;">{{ $message }}</p> @enderror
             </div>
 
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px;">郵便番号</label>
-                <input type="text" name="postal_code" value="{{ old('postal_code', $user->postal_code) }}"
+                <input type="text" name="postal_code" value="{{ old('postal_code', auth()->user()->postal_code) }}"
                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;"
                     placeholder="123-4567">
                 @error('postal_code') <p style="color: red; font-size: 13px; margin: 5px 0 0 0;">{{ $message }}</p>
@@ -38,7 +38,7 @@
 
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px;">住所</label>
-                <input type="text" name="address" value="{{ old('address', $user->address) }}"
+                <input type="text" name="address" value="{{ old('address', auth()->user()->address) }}"
                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;"
                     placeholder="東京都渋谷区...">
                 @error('address') <p style="color: red; font-size: 13px; margin: 5px 0 0 0;">{{ $message }}</p>
@@ -47,7 +47,7 @@
 
             <div style="margin-bottom: 35px;">
                 <label style="display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px;">建物名</label>
-                <input type="text" name="building" value="{{ old('building', $user->building) }}"
+                <input type="text" name="building" value="{{ old('building', auth()->user()->building) }}"
                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;"
                     placeholder="ビル名・部屋番号など">
                 @error('building') <p style="color: red; font-size: 13px; margin: 5px 0 0 0;">{{ $message }}</p>

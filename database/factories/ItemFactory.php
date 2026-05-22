@@ -1,0 +1,26 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Item;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ItemFactory extends Factory
+{
+    protected $model = Item::class;
+
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::factory(),
+            'name' => $this->faker->word(),
+            'brand' => $this->faker->company(),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'description' => $this->faker->sentence(),
+            'condition' => '新品',
+            'img_url' => 'dummy.jpg', // もしDBが item_img ならここを 'item_img' に変更
+            'is_sold' => false,
+        ];
+    }
+}
